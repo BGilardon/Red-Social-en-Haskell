@@ -6,6 +6,8 @@
 -- Integrante 3: Nombre Apellido, email, LU
 -- Integrante 4: Nombre Apellido, email, LU
 
+funcionPrueba = 5
+
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
 type Publicacion = (Usuario, String, [Usuario]) -- (usuario que publica, texto publicacion, likes)
@@ -75,8 +77,8 @@ compararUsuarios red [us] = us
 compararUsuarios red (u1:u2:us) = compararUsuarios red ((compararAmigos red u1 u2) : us)
 
 compararAmigos :: RedSocial -> Usuario -> Usuario -> Usuario
-compararAmigos red u1 u2    | cantidadDeAmigos red u1 >= cantidadDeAmigos red u2 = u1
-                            | cantidadDeAmigos red u2 >= cantidadDeAmigos red u1 = u2
+compararAmigos red u1 u2        | cantidadDeAmigos red u1 >= cantidadDeAmigos red u2 = u1
+                                | cantidadDeAmigos red u2 >= cantidadDeAmigos red u1 = u2
 
 -- describir qué hace la función: .....
 estaRobertoCarlos :: RedSocial -> Bool
