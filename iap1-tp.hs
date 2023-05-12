@@ -36,6 +36,10 @@ likesDePublicacion (_, _, us) = us
 
 -- Ejercicios
 
+pertenece :: (Eq x) => x -> [x] -> Bool
+pertenece _ [] = False
+pertenece y (x:xs) = y == x || pertenece y xs 
+
 -- describir qué hace la función: .....
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios red   = proyectarNombres us
