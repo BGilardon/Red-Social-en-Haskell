@@ -52,11 +52,11 @@ amigosDe red us = relacionados rel us
 
 relacionados :: [Relacion] -> Usuario -> [Usuario]
 relacionados [] _ = []
-relacionados (rel:relas) us | us == u1 = u2 : relacionados relas us
-                            | us == u2 = u1 : relacionados relas us
-                            | otherwise = relacionados relas us
-                            where   u1 = fst rel
-                                    u2 = snd rel
+relacionados (rel:relas) us     | us == u1 = u2 : relacionados relas us
+                                | us == u2 = u1 : relacionados relas us
+                                | otherwise = relacionados relas us
+                                where   u1 = fst rel
+                                        u2 = snd rel
 
 -- describir qué hace la función: .....
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
