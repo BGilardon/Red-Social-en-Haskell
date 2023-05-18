@@ -1,3 +1,5 @@
+import Test.HUnit
+
 -- Completar con los datos del grupo
 --
 -- Nombre de Grupo: xx
@@ -107,7 +109,7 @@ publicacionesQueLeGustanA red us    = publicacionesQueLeGustanAAux pub us
 
 publicacionesQueLeGustanAAux :: [Publicacion] -> Usuario -> [Publicacion]
 publicacionesQueLeGustanAAux [] _ = []
-publicacionesQueLeGustanAAux (p:ps) us  | elem us (likesDePublicacion p) = p : (publicacionesQueLeGustanAAux ps us) -- la funcion "elem x xs" remplaza a la funcion pertenece
+publicacionesQueLeGustanAAux (p:ps) us  | pertenece us (likesDePublicacion p) = p : (publicacionesQueLeGustanAAux ps us)
                                         | otherwise = (publicacionesQueLeGustanAAux ps us)
 
 
@@ -121,7 +123,7 @@ mismosElementos xs ys = todosPertenecen xs ys && todosPertenecen ys xs
 
 todosPertenecen :: (Eq a) => [a] -> [a] -> Bool
 todosPertenecen [] _ = True
-todosPertenecen (x:xs) ys = elem x ys && todosPertenecen xs ys
+todosPertenecen (x:xs) ys = pertenece x ys && todosPertenecen xs ys
 
 
 -- describir qué hace la función: .....
@@ -141,7 +143,7 @@ todosLosLikes (x:xs) = likesDePublicacion x : (todosLosLikes xs)
 
 estaEnTodos :: (Eq a) => a -> [[a]] -> Bool
 estaEnTodos k [] = True
-estaEnTodos e (x:xs) = elem e x && estaEnTodos e xs  
+estaEnTodos e (x:xs) = pertenece e x && estaEnTodos e xs  
 
 -- describir qué hace la función: .....
 
