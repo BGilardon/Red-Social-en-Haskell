@@ -51,6 +51,8 @@ proyectarNombres :: [Usuario] -> [String]
 proyectarNombres [] = []
 proyectarNombres (s:us) = (nombreDeUsuario s) : (proyectarNombres us)
 
+-- SACAR REPETIDOS NOMBRES
+
 -- describir qué hace la función: .....
 amigosDe :: RedSocial -> Usuario -> [Usuario]
 amigosDe red us = relacionados rel us
@@ -92,6 +94,11 @@ existeUsuarioMillonAmigos :: RedSocial -> [Usuario] -> Bool
 existeUsuarioMillonAmigos red [] = False
 existeUsuarioMillonAmigos red (u:us)    | (cantidadDeAmigos red u) > 1000000 = True
                                         | otherwise = existeUsuarioMillonAmigos red us
+
+existeusuario10amigos :: RedSocial -> [Usuario] -> Bool -- Unicamente para probar que funciona
+existeusuario10amigos red [] = False
+existeusuario10amigos red (u:us)        | (cantidadDeAmigos red u) > 10 = True
+                                        | otherwise = existeusuario10amigos red us
 
 -- describir qué hace la función: .....
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
