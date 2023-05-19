@@ -47,11 +47,17 @@ nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios red   = proyectarNombres us
                         where us = usuarios red
 
-proyectarNombres :: [Usuario] -> [String]
-proyectarNombres [] = []
-proyectarNombres (s:us) = (nombreDeUsuario s) : (proyectarNombres us)
+proyectarNombresRepetidos :: [Usuario] -> [String]
+proyectarNombresRepetidos [] = []
+proyectarNombresRepetidos (s:us) = (nombreDeUsuario s) : (proyectarNombresRepetidos us)
 
--- SACAR REPETIDOS NOMBRES
+quitarUsuariosRepetidos :: (Eq a) => [a] -> [a]
+quitarUsuariosRepetidos [] = []
+quitarUsuariosRepetidos (x:xs)  | pertenece x (quitarUsuariosRepetidos xs) = quitarUsuariosRepetidos xs
+                                | otherwise = x : (quitarUsuariosRepetidos xs)
+
+proyectarNombres :: [Usuario] -> [String]
+proyectarNombres us = quitarUsuariosRepetidos (proyectarNombresRepetidos us)
 
 -- describir qué hace la función: .....
 amigosDe :: RedSocial -> Usuario -> [Usuario]

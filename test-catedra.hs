@@ -5,6 +5,10 @@ main = runTestTT tests
 
 tests = test [
     " nombresDeUsuarios 1" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
+    " nombresDeUsuarios con redVacia" ~: (nombresDeUsuarios redVacia) ~?= [],
+    " nombresDeUsuarios con un solo usuario" ~: (nombresDeUsuarios redUnicoUsuario) ~?= ["Juan"],
+    " nombresDeUsuarios con mas de un usuario, sin repetidos" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"], -- es el mismo test porque sirve
+    " nombresDeUsuarios con usuarios repetidos" ~: (nombresDeUsuarios redConNombresRepetidos) ~?= ["Juan","Natalia"],
 
     " amigosDe 1" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
 
@@ -69,4 +73,11 @@ usuariosB = [usuario1, usuario2, usuario3, usuario5]
 relacionesB = [relacion1_2, relacion2_3]
 publicacionesB = [publicacion1_3, publicacion1_4, publicacion1_5, publicacion3_1, publicacion3_2, publicacion3_3]
 redB = (usuariosB, relacionesB, publicacionesB)
+
+--Redes utilies
+redVacia = ([], [], [])
+
+redUnicoUsuario = ([usuario1], [], [])
+
+redConNombresRepetidos = ([usuario1, usuario2, usuario5], [], [])
 
