@@ -42,7 +42,10 @@ likesDePublicacion (_, _, us) = us
 
 
 
--- describir qué hace la función: .....
+{- 
+describir qué hace la función: Primero toma unicamente los usuarios de la red, para despues iterar sobre ellos recursivamente
+de forma que toma el nombre del usuario y lo agrega a la lista de los que vienen despues. Luego se le quitan los repetidos 
+-}
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios red   = proyectarNombres us
                         where us = usuarios red
@@ -59,7 +62,14 @@ quitarUsuariosRepetidos (x:xs)  | pertenece x (quitarUsuariosRepetidos xs) = qui
 proyectarNombres :: [Usuario] -> [String]
 proyectarNombres us = quitarUsuariosRepetidos (proyectarNombresRepetidos us)
 
--- describir qué hace la función: .....
+pertenece :: (Eq x) => x -> [x] -> Bool
+pertenece _ [] = False
+pertenece y (x:xs) = y == x || pertenece y xs 
+
+{-
+describir qué hace la función: Toma las relaciones de la red, si el usuario esta relacionado toma con el que este esta relacionado
+y, recursivamente, lo agrega a una lista, sacando la anterior
+-}
 amigosDe :: RedSocial -> Usuario -> [Usuario]
 amigosDe red us = relacionados rel us
                 where rel = relaciones red
@@ -72,14 +82,14 @@ relacionados (rel:relas) us     | us == u1 = u2 : relacionados relas us
                                 where   u1 = fst rel
                                         u2 = snd rel
 
--- describir qué hace la función: .....
+-- describir qué hace la función: calcula la longitud de la lista de amigos de un usuario
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
 cantidadDeAmigos red us = longitud (amigosDe red us)
                         where   longitud [] = 0
                                 longitud (x:xs) = 1 + longitud xs
 
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Compara usuarios 1 a 1 y se va quedando con el que mas amigos tiene, hasta no quedar ninguno
 usuarioConMasAmigos :: RedSocial -> Usuario
 usuarioConMasAmigos red = compararUsuarios red us 
                         where us = usuarios red
@@ -92,10 +102,11 @@ compararAmigos :: RedSocial -> Usuario -> Usuario -> Usuario
 compararAmigos red u1 u2        | cantidadDeAmigos red u1 >= cantidadDeAmigos red u2 = u1
                                 | cantidadDeAmigos red u2 >= cantidadDeAmigos red u1 = u2
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Evalua 1 por 1 si los usuarios tienen mas de 1Millon de amigos, hasta quedarse sin usuarios
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos red   = existeUsuarioMillonAmigos red us
                         where us = usuarios red
+
 existeUsuarioMillonAmigos :: RedSocial -> [Usuario] -> Bool
 existeUsuarioMillonAmigos red [] = False
 existeUsuarioMillonAmigos red (u:us)    | (cantidadDeAmigos red u) > 1000000 = True
@@ -106,7 +117,7 @@ existeusuario10amigos red [] = False
 existeusuario10amigos red (u:us)        | (cantidadDeAmigos red u) > 10 = True
                                         | otherwise = existeusuario10amigos red us
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Analisa publicacion por publicacion, si el usuario de publicacion es el dado, y si es lo agrega a una lista
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe red us  = publicacionesDeAux pub us
                         where pub = publicaciones red
@@ -115,21 +126,19 @@ publicacionesDeAux :: [Publicacion] -> Usuario -> [Publicacion]
 publicacionesDeAux [] _ = []
 publicacionesDeAux (p:ps) us    | (usuarioDePublicacion p) == us = p : (publicacionesDeAux ps us) 
                                 | otherwise = (publicacionesDeAux ps us)
--- describir qué hace la función: .....
+{- describir qué hace la función: Analisa publicacion por publicacion, si el usuario pertenece a los likes de la misma es el dado
+dado el caso, lo agrega a la lista --}
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA red us    = publicacionesQueLeGustanAAux pub us
-                                    where pub = publicaciones red
+publicacionesQueLeGustanA red us        = publicacionesQueLeGustanAAux pub us
+                                        where pub = publicaciones red
 
 publicacionesQueLeGustanAAux :: [Publicacion] -> Usuario -> [Publicacion]
 publicacionesQueLeGustanAAux [] _ = []
 publicacionesQueLeGustanAAux (p:ps) us  | pertenece us (likesDePublicacion p) = p : (publicacionesQueLeGustanAAux ps us)
                                         | otherwise = (publicacionesQueLeGustanAAux ps us)
 
-pertenece :: (Eq x) => x -> [x] -> Bool
-pertenece _ [] = False
-pertenece y (x:xs) = y == x || pertenece y xs 
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Analiza si el conjunto de publicacion del primer usuario, es igual al conjunto de publicaciones del segundo
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = mismosElementos (publicacionesQueLeGustanA red u1) (publicacionesQueLeGustanA red u2) 
 
@@ -141,7 +150,7 @@ todosPertenecen [] _ = True
 todosPertenecen (x:xs) ys = pertenece x ys && todosPertenecen xs ys
 
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Analiza si algun usuario esta contenido en los likes de todas las publicaciones
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u       = existeSeguidorFiel us pubs
                                 where   us = usuarios red
@@ -160,9 +169,15 @@ estaEnTodos :: (Eq a) => a -> [[a]] -> Bool
 estaEnTodos k [] = True
 estaEnTodos e (x:xs) = pertenece e x && estaEnTodos e xs  
 
--- describir qué hace la función: .....
+{-
+describir qué hace la función: Toma una relacion entre dos usuarios de la red y analiza diferentes casos tal que 
+Caso I          : u1 no tiene amigos en la red, por lo tanto no habria conexiones con nadie
+Caso II         : u1 y u2 estan relacionados directamente, por tanto, el camino es sencillo
+Caso III        : La relacion tomada es entre u1 y un u', entonces busco secuencia de amigos entre u' y u2 (Sin contar la relacion (u1, u') para evitar bucles infinitos)
+Caso IV         : La relacion tomada es entre u1 y un u', pero u' no tiene mas amigos, entonces descarto esta relacion y busco secuencia entre u1 y u2, sin tomar en cuenta (u1, u') 
+Caso V          : si u1 no es parte de la relacion, puede ser que esta sirva para llegar a u2 luego, por tanto la envio al final de la lista y pruebo con la siguiente
+-}
 
---Todavia no esta resuelto
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos red u1 u2       = existeSecuenciaDeAmigosAux rel u1 u2
                                         where rel = relaciones red
