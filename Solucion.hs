@@ -41,7 +41,7 @@ likesDePublicacion (_, _, us) = us
 -- Ejercicios
 
 
-
+--EJ1
 {- 
 describir qué hace la función: Primero toma unicamente los usuarios de la red, para despues iterar sobre ellos recursivamente
 de forma que toma el nombre del usuario y lo agrega a la lista de los que vienen despues. Luego se le quitan los repetidos 
@@ -66,6 +66,8 @@ pertenece :: (Eq x) => x -> [x] -> Bool
 pertenece _ [] = False
 pertenece y (x:xs) = y == x || pertenece y xs 
 
+
+--EJ2
 {-
 describir qué hace la función: Toma las relaciones de la red, si el usuario esta relacionado toma con el que este esta relacionado
 y, recursivamente, lo agrega a una lista, sacando la anterior
@@ -82,6 +84,8 @@ relacionados (rel:relas) us     | us == u1 = u2 : relacionados relas us
                                 where   u1 = fst rel
                                         u2 = snd rel
 
+
+--EJ3
 -- describir qué hace la función: calcula la longitud de la lista de amigos de un usuario
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
 cantidadDeAmigos red us = longitud (amigosDe red us)
@@ -89,6 +93,7 @@ cantidadDeAmigos red us = longitud (amigosDe red us)
                                 longitud (x:xs) = 1 + longitud xs
 
 
+--EJ4
 -- describir qué hace la función: Compara usuarios 1 a 1 y se va quedando con el que mas amigos tiene, hasta no quedar ninguno
 usuarioConMasAmigos :: RedSocial -> Usuario
 usuarioConMasAmigos red = compararUsuarios red us 
@@ -102,6 +107,8 @@ compararAmigos :: RedSocial -> Usuario -> Usuario -> Usuario
 compararAmigos red u1 u2        | cantidadDeAmigos red u1 >= cantidadDeAmigos red u2 = u1
                                 | cantidadDeAmigos red u2 >= cantidadDeAmigos red u1 = u2
 
+
+--EJ5
 -- describir qué hace la función: Evalua 1 por 1 si los usuarios tienen mas de 1Millon de amigos, hasta quedarse sin usuarios
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos red   = existeUsuarioMillonAmigos red us
@@ -117,6 +124,8 @@ existeusuario10amigos red [] = False
 existeusuario10amigos red (u:us)        | (cantidadDeAmigos red u) > 10 = True
                                         | otherwise = existeusuario10amigos red us
 
+
+--EJ6
 -- describir qué hace la función: Analisa publicacion por publicacion, si el usuario de publicacion es el dado, y si es lo agrega a una lista
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe red us  = publicacionesDeAux pub us
@@ -126,6 +135,9 @@ publicacionesDeAux :: [Publicacion] -> Usuario -> [Publicacion]
 publicacionesDeAux [] _ = []
 publicacionesDeAux (p:ps) us    | (usuarioDePublicacion p) == us = p : (publicacionesDeAux ps us) 
                                 | otherwise = (publicacionesDeAux ps us)
+
+
+--EJ7
 {- describir qué hace la función: Analisa publicacion por publicacion, si el usuario pertenece a los likes de la misma es el dado
 dado el caso, lo agrega a la lista --}
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
@@ -138,6 +150,7 @@ publicacionesQueLeGustanAAux (p:ps) us  | pertenece us (likesDePublicacion p) = 
                                         | otherwise = (publicacionesQueLeGustanAAux ps us)
 
 
+--EJ8
 -- describir qué hace la función: Analiza si el conjunto de publicacion del primer usuario, es igual al conjunto de publicaciones del segundo
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = mismosElementos (publicacionesQueLeGustanA red u1) (publicacionesQueLeGustanA red u2) 
@@ -150,6 +163,7 @@ todosPertenecen [] _ = True
 todosPertenecen (x:xs) ys = pertenece x ys && todosPertenecen xs ys
 
 
+--EJ9
 -- describir qué hace la función: Analiza si algun usuario esta contenido en los likes de todas las publicaciones
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u       = existeSeguidorFiel us pubs
@@ -169,6 +183,8 @@ estaEnTodos :: (Eq a) => a -> [[a]] -> Bool
 estaEnTodos k [] = True
 estaEnTodos e (x:xs) = pertenece e x && estaEnTodos e xs  
 
+
+--EJ10
 {-
 describir qué hace la función: Toma una relacion entre dos usuarios de la red y analiza diferentes casos tal que 
 Caso I          : u1 no tiene amigos en la red, por lo tanto no habria conexiones con nadie
