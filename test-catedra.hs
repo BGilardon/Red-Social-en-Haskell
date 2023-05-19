@@ -4,13 +4,19 @@ import Solucion
 main = runTestTT tests
 
 tests = test [
+    -- Test ejercicio 1
     " nombresDeUsuarios 1" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"],
-    " nombresDeUsuarios con redVacia" ~: (nombresDeUsuarios redVacia) ~?= [],
-    " nombresDeUsuarios con un solo usuario" ~: (nombresDeUsuarios redUnicoUsuario) ~?= ["Juan"],
-    " nombresDeUsuarios con mas de un usuario, sin repetidos" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"], -- es el mismo test porque sirve
-    " nombresDeUsuarios con usuarios repetidos" ~: (nombresDeUsuarios redConNombresRepetidos) ~?= ["Juan","Natalia"],
+    " nombresDeUsuarios redVacia" ~: (nombresDeUsuarios redVacia) ~?= [],
+    " nombresDeUsuarios un solo usuario" ~: (nombresDeUsuarios redUnicoUsuario) ~?= ["Juan"],
+    " nombresDeUsuarios mas de un usuario, sin repetidos" ~: (nombresDeUsuarios redA) ~?= ["Juan","Natalia","Pedro","Mariela"], -- es el mismo test porque sirve
+    " nombresDeUsuarios usuarios repetidos" ~: (nombresDeUsuarios redConNombresRepetidos) ~?= ["Juan","Natalia"],
 
+    -- Test ejercicio 2
     " amigosDe 1" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4],
+    " amigosDe un solo usuario" ~: (amigosDe redUnicoUsuario usuario1) ~?= [],
+    " amigosDe mas de un usuario, sin relaciones" ~: (amigosDe redB usuario5) ~?= [],
+    " amigosDe mas de un usuario, con relaciones" ~: (amigosDe redA usuario1) ~?= [usuario2, usuario4], -- es el mismo test porque sirve
+
 
     " cantidadDeAmigos 1" ~: (cantidadDeAmigos redA usuario1) ~?= 2,
 
