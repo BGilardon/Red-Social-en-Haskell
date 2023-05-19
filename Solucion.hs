@@ -187,11 +187,11 @@ estaEnTodos e (x:xs) = pertenece e x && estaEnTodos e xs
 --EJ10
 {-
 describir qué hace la función: Toma una relacion entre dos usuarios de la red y analiza diferentes casos tal que 
-Caso I          : u1 no tiene amigos en la red, por lo tanto no habria conexiones con nadie
-Caso II         : u1 y u2 estan relacionados directamente, por tanto, el camino es sencillo
-Caso III        : La relacion tomada es entre u1 y un u', entonces busco secuencia de amigos entre u' y u2 (Sin contar la relacion (u1, u') para evitar bucles infinitos)
-Caso IV         : La relacion tomada es entre u1 y un u', pero u' no tiene mas amigos, entonces descarto esta relacion y busco secuencia entre u1 y u2, sin tomar en cuenta (u1, u') 
-Caso V          : si u1 no es parte de la relacion, puede ser que esta sirva para llegar a u2 luego, por tanto la envio al final de la lista y pruebo con la siguiente
+Caso I  : u1 no tiene amigos en la red, por lo tanto no habria conexiones con nadie
+Caso II : u1 y u2 estan relacionados directamente, por tanto, el camino es sencillo
+Caso III: La relacion tomada es entre u1 y un u', entonces busco secuencia de amigos entre u' y u2 (Sin contar la relacion (u1, u') para evitar bucles infinitos)
+Caso IV : La relacion tomada es entre u1 y un u', pero u' no tiene mas amigos, entonces descarto esta relacion y busco secuencia entre u1 y u2, sin tomar en cuenta (u1, u') 
+Caso V  : si u1 no es parte de la relacion, puede ser que esta sirva para llegar a u2 luego, por tanto la envio al final de la lista y pruebo con la siguiente
 -}
 
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
