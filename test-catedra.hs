@@ -26,11 +26,42 @@ tests = test [
 
     " publicacionesDe 1" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
 
+    --Comprobar que las redes funcionan por separado aun usando los mismos usuarios, y aunque a estos no les guste ninguna publicacion en esa red social 
+    --redA
     " publicacionesQueLeGustanA 1" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
+    " publicacionesQueLeGustanA 2 " ~: (publicacionesQueLeGustanA redA usuario2) ~?= [publicacion1_1, publicacion3_2, publicacion4_1],
+    " publicacionesQueLeGustanA 3 " ~: (publicacionesQueLeGustanA redA usuario3) ~?= [],
+    " publicacionesQueLeGustanA 4 " ~: (publicacionesQueLeGustanA redA usuario4) ~?= [publicacion1_1, publicacion1_2, publicacion2_1, publicacion2_2],
+    
+    --redB
+    " publicacionesQueLeGustanA 1" ~: (publicacionesQueLeGustanA redB usuario1) ~?= [],
+    " publicacionesQueLeGustanA 2 " ~: (publicacionesQueLeGustanA redB usuario2) ~?= [publicacion1_3, publicacion3_2, publicacion3_3],
+    " publicacionesQueLeGustanA 3 " ~: (publicacionesQueLeGustanA redB usuario3) ~?= [],
+    " publicacionesQueLeGustanA 5 " ~: (publicacionesQueLeGustanA redB usuario5) ~?= [publicacion1_3, publicacion1_5, publicacion3_3],
+
+    --redC
+    " publicacionesQueLeGustanA 1 " ~: (publicacionesQueLeGustanA redC usuario1) ~?= [publicacion4_3],
+    " publicacionesQueLeGustanA 3 " ~: (publicacionesQueLeGustanA redC usuario3) ~?= [publicacion4_3],
+    " publicacionesQueLeGustanA 4 " ~: (publicacionesQueLeGustanA redC usuario4) ~?= [publicacion1_1, publicacion1_2],
+    " publicacionesQueLeGustanA 5 " ~: (publicacionesQueLeGustanA redC usuario5) ~?= [publicacion1_5, publicacion3_3],
 
     " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario3) ~?= True,
-
+    " lesGustanLasMismasPublicaciones | a ambos les gusta una misma publicacion" ~: (lesGustanLasMismasPublicaciones redC usuario1 usuario3) ~?= True,
+    " lesGustanLasMismasPublicaciones | a ambos les gustan las mismas publicaciones" ~: (lesGustanLasMismasPublicaciones redD usuario2 usuario5) ~?= True,
+    " lesGustanLasMismasPublicaciones | a ambos les gustan cosas diferentes" ~: (lesGustanLasMismasPublicaciones redC usuario4 usuario5) ~?= False,  
+    " lesGustanLasMismasPublicaciones | al primero le gustan las mismas, excepto por una" ~: (lesGustanLasMismasPublicaciones redB usuario2 usuario5) ~?= False,    
+    " lesGustanLasMismasPublicaciones | al segundo le gustan las mismas, excepto por una" ~: (lesGustanLasMismasPublicaciones redB usuario5 usuario2) ~?= False,  
+    " lesGustanLasMismasPublicaciones | solo el primero, no tiene publicaciones que le gusten" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario2) ~?= False,
+    " lesGustanLasMismasPublicaciones | solo el segundo, no tiene publicaciones que le gusten" ~: (lesGustanLasMismasPublicaciones redB usuario2 usuario1) ~?= False,
+    
     " tieneUnSeguidorFiel 1" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
+    " tieneUnSeguidorFiel | el usuario tiene mas de un seguidor fiel" ~: (tieneUnSeguidorFiel redD usuario1) ~?= True,
+    " tieneUnSeguidorFiel | el usuario no tiene publicaciones" ~: (tieneUnSeguidorFiel redB usuario5) ~?= False,
+    " tieneUnSeguidorFiel | el ususario tiene likes, pero no un seguidor fiel" ~: (tieneUnSeguidorFiel redC usuario1) ~?= False,
+    " tieneUnSeguidorFiel | el ususario tiene likes, pero no un seguidor fiel (pub sin likes)" ~: (tieneUnSeguidorFiel redB usuario1) ~?= False,
+    " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y tiene un like" ~: (tieneUnSeguidorFiel redC usuario3) ~?= True,
+    " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y tiene mas de un like" ~: (tieneUnSeguidorFiel redC usuario4) ~?= True,
+    " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y no tiene like" ~: (tieneUnSeguidorFiel redD usuario2) ~?= False,
 
     " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True,
     " existeSecuenciaDeAmigos | red de solo 2 & u1 amigo u2" ~: (existeSecuenciaDeAmigos redDeSolo2Relacionados usuario1 usuario2) ~?= True,
@@ -109,3 +140,13 @@ redRelacion = (usuariosRelacion, relacionesRedRelaciones, [])
 
 redMasRelaciones = ([usuario1, usuario2, usuario3, usuario4, usuario5, usuario6], [relacion1_2, relacion2_3, relacion3_4], [])
 
+-- POMI
+usuariosC = [usuario1, usuario3, usuario4, usuario5]
+relacionesC = [relacion3_4]
+publicacionesC = [publicacion1_1, publicacion1_2, publicacion1_5, publicacion3_3, publicacion4_3]
+redC = (usuariosC, relacionesC, publicacionesC)
+
+usuariosD = [usuario1, usuario2, usuario3, usuario5]
+relacionesD = [relacion2_3]
+publicacionesD = [publicacion1_3, publicacion2_1, publicacion3_3]
+redD = (usuariosD, relacionesD, publicacionesD)
