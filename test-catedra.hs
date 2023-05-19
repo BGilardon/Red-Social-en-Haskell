@@ -26,6 +26,7 @@ tests = test [
 
     " publicacionesDe 1" ~: (publicacionesDe redA usuario2) ~?= [publicacion2_1, publicacion2_2],
 
+    -- Test ejercicio 7
     --Comprobar que las redes funcionan por separado aun usando los mismos usuarios, y aunque a estos no les guste ninguna publicacion en esa red social 
     --redA
     " publicacionesQueLeGustanA 1" ~: (publicacionesQueLeGustanA redA usuario1) ~?= [publicacion2_2, publicacion4_1],
@@ -44,7 +45,8 @@ tests = test [
     " publicacionesQueLeGustanA 3 " ~: (publicacionesQueLeGustanA redC usuario3) ~?= [publicacion4_3],
     " publicacionesQueLeGustanA 4 " ~: (publicacionesQueLeGustanA redC usuario4) ~?= [publicacion1_1, publicacion1_2],
     " publicacionesQueLeGustanA 5 " ~: (publicacionesQueLeGustanA redC usuario5) ~?= [publicacion1_5, publicacion3_3],
-
+    
+    --Test ejercicio 8
     " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario3) ~?= True,
     " lesGustanLasMismasPublicaciones | a ambos les gusta una misma publicacion" ~: (lesGustanLasMismasPublicaciones redC usuario1 usuario3) ~?= True,
     " lesGustanLasMismasPublicaciones | a ambos les gustan las mismas publicaciones" ~: (lesGustanLasMismasPublicaciones redD usuario2 usuario5) ~?= True,
@@ -54,6 +56,7 @@ tests = test [
     " lesGustanLasMismasPublicaciones | solo el primero, no tiene publicaciones que le gusten" ~: (lesGustanLasMismasPublicaciones redB usuario1 usuario2) ~?= False,
     " lesGustanLasMismasPublicaciones | solo el segundo, no tiene publicaciones que le gusten" ~: (lesGustanLasMismasPublicaciones redB usuario2 usuario1) ~?= False,
     
+    --Test ejercicio 9
     " tieneUnSeguidorFiel 1" ~: (tieneUnSeguidorFiel redA usuario1) ~?= True,
     " tieneUnSeguidorFiel | el usuario tiene mas de un seguidor fiel" ~: (tieneUnSeguidorFiel redD usuario1) ~?= True,
     " tieneUnSeguidorFiel | el usuario no tiene publicaciones" ~: (tieneUnSeguidorFiel redB usuario5) ~?= False,
@@ -62,7 +65,8 @@ tests = test [
     " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y tiene un like" ~: (tieneUnSeguidorFiel redC usuario3) ~?= True,
     " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y tiene mas de un like" ~: (tieneUnSeguidorFiel redC usuario4) ~?= True,
     " tieneUnSeguidorFiel | el usuario tiene una sola publicacion y no tiene like" ~: (tieneUnSeguidorFiel redD usuario2) ~?= False,
-
+    
+    --Test ejercicio 10
     " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redA usuario1 usuario3) ~?= True,
     " existeSecuenciaDeAmigos | red de solo 2 & u1 amigo u2" ~: (existeSecuenciaDeAmigos redDeSolo2Relacionados usuario1 usuario2) ~?= True,
     " existeSecuenciaDeAmigos | red de solo 2 & u1 no amigo u2" ~: (existeSecuenciaDeAmigos redDeSolo2NoRelacionados usuario1 usuario2) ~?= False,
