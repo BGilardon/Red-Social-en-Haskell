@@ -1,4 +1,5 @@
 Programación Funcional
+
 Redes Sociales
 
 El objetivo de este Trabajo Práctico es aplicar los conceptos de programación funcional para programar un ejemplo de red social 
